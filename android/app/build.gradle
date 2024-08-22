@@ -105,11 +105,17 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    repositories {
+        maven {
+            url 'https://com-roam-android.s3.amazonaws.com/'
+        }
+    }
 }
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    implementation("com.roam.sdk:roam-android:0.1.28")
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

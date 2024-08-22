@@ -2940,6 +2940,7 @@ __metadata:
     react: 18.3.1
     react-native: 0.75.2
     react-test-renderer: 18.3.1
+    roam-reactnative: ^0.1.13
     typescript: 5.0.4
   languageName: unknown
   linkType: soft
@@ -8244,6 +8245,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"roam-reactnative@npm:^0.1.13":
+  version: 0.1.13
+  resolution: "roam-reactnative@npm:0.1.13"
+  dependencies:
+    typescript: ^4.2.4
+  checksum: 76b355625e310f3965d675afbdcd93c4d9b9088728e65704bcea8725a5d0980c0734a1c941bde87b2eefcf4e692f9427ee7f9605db41c57aff97908820e87eaa
+  languageName: node
+  linkType: hard
+
 "run-parallel@npm:^1.1.9":
   version: 1.2.0
   resolution: "run-parallel@npm:1.2.0"
@@ -9098,6 +9108,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:^4.2.4":
+  version: 4.9.5
+  resolution: "typescript@npm:4.9.5"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: ee000bc26848147ad423b581bd250075662a354d84f0e06eb76d3b892328d8d4440b7487b5a83e851b12b255f55d71835b008a66cbf8f255a11e4400159237db
+  languageName: node
+  linkType: hard
+
 "typescript@patch:typescript@5.0.4#~builtin<compat/typescript>":
   version: 5.0.4
   resolution: "typescript@patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"
@@ -9105,6 +9125,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: d26b6ba97b6d163c55dbdffd9bbb4c211667ebebc743accfeb2c8c0154aace7afd097b51165a72a5bad2cf65a4612259344ff60f8e642362aa1695c760d303ac
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^4.2.4#~builtin<compat/typescript>":
+  version: 4.9.5
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=289587"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 1f8f3b6aaea19f0f67cba79057674ba580438a7db55057eb89cc06950483c5d632115c14077f6663ea76fd09fce3c190e6414bb98582ec80aa5a4eaf345d5b68
   languageName: node
   linkType: hard
 
