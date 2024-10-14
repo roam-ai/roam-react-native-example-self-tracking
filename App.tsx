@@ -88,7 +88,6 @@ const App = () => {
 
         Roam.startTrackingTimeInterval(10, Roam.DesiredAccuracy.HIGH);
         setTrackingStatus('Started');
-        Roam.getCurrentLocationListener(10);
       } else {
         console.log("Location permission not granted. Cannot start tracking.");
         setTrackingStatus('Permission Denied');

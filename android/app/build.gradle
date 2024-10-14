@@ -115,7 +115,7 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-    implementation("com.roam.sdk:roam-android:0.1.28")
+    implementation("com.roam.sdk:roam-android:0.1.32")
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

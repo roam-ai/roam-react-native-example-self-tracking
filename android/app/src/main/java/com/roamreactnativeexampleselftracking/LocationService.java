@@ -25,7 +25,9 @@ public class LocationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        register();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            register();
+        }
     }
 
     @Override
@@ -39,12 +41,15 @@ public class LocationService extends Service {
         super.onDestroy();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void register() {
         mLocationReceiver = new RNRoamReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.roam.android.RECEIVED");
         intentFilter.addAction("android.intent.action.BOOT_COMPLETED");
-        registerReceiver(mLocationReceiver, intentFilter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(mLocationReceiver, intentFilter, Context.RECEIVER_EXPORTED);
+        }
     }
 
     private void unRegister() {
