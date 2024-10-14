@@ -85,8 +85,8 @@ const App = () => {
             setLastLocation(parsedLocation);
           }
         });
-
-        Roam.startTrackingTimeInterval(10, Roam.DesiredAccuracy.HIGH);
+       // Roam.startTrackingTimeInterval(10, Roam.DesiredAccuracy.HIGH);
+        Roam.startTrackingDistanceInterval(10, 10, Roam.DesiredAccuracy.HIGH);
         setTrackingStatus('Started');
       } else {
         console.log("Location permission not granted. Cannot start tracking.");

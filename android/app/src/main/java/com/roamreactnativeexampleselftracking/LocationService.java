@@ -50,6 +50,9 @@ public class LocationService extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             registerReceiver(mLocationReceiver, intentFilter, Context.RECEIVER_EXPORTED);
         }
+        else {
+            registerReceiver(mLocationReceiver, intentFilter);
+        }
     }
 
     private void unRegister() {
