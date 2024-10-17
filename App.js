@@ -578,8 +578,8 @@ const App = () => {
         "Roam Example",
         "Tap to open",
         "mipmap/ic_launcher",
-        "com.roamexample.MainActivity",
-        "com.roamexample.RoamForegroundService"
+        "com.roamreactnativeexampleselftracking.MainActivity",
+        "com.roamreactnativeexampleselftracking.LocationService"
       )
     }
     Roam.publishAndSave(null);
@@ -652,8 +652,8 @@ const App = () => {
         "Roam Example",
         "Tap to open",
         "mipmap/ic_launcher",
-        "com.roamexample.MainActivity",
-        "com.roamexample.RoamForegroundService"
+        "com.roamreactnativeexampleselftracking.MainActivity",
+        "com.roamreactnativeexampleselftracking.LocationService"
       )
     }
     Roam.stopPublishing();
