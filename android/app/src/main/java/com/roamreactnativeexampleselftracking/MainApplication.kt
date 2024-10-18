@@ -35,7 +35,7 @@ class MainApplication : Application(), ReactApplication {
 
   override fun onCreate() {
     super.onCreate()
-    Roam.initialize(this, "564df3c54092a0a6b5d10114fb2c1458ee0d96d389be4527b04185a6a0c194b4")
+    Roam.initialize(this, "API KEY")
     SoLoader.init(this, false)
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
       // If you opted-in for the New Architecture, we load the native entry point for this app.
