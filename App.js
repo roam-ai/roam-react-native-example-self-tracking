@@ -161,21 +161,21 @@ const App = () => {
   }, [initialized, onCheckPermissions, setUserId, setTripId]);
 
   // Refresh permissions on app state change
-  // useEffect(() => {
-  //   const handleAppStateChange = nextAppState => {
-  //     if (
-  //       appStateRef.current?.match(/inactive|background/) &&
-  //       nextAppState === 'active'
-  //     ) {
-  //       onCheckPermissions();
-  //     }
-  //     appStateRef?.current = nextAppState;
-  //   };
-  //   AppState.addEventListener('change', handleAppStateChange);
-  //   return () => {
-  //     AppState.removeEventListener('change', handleAppStateChange);
-  //   };
-  // }, [onCheckPermissions]);
+  useEffect(() => {
+    const handleAppStateChange = nextAppState => {
+      if (
+        appStateRef.current?.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        onCheckPermissions();
+      }
+      appStateRef?.current = nextAppState;
+    };
+    AppState.addEventListener('change', handleAppStateChange);
+    return () => {
+      AppState.removeEventListener('change', handleAppStateChange);
+    };
+  }, [onCheckPermissions]);
 
   //Check Permission
   const onCheckPermissions = useCallback(async () => {
