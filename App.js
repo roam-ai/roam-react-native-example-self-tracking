@@ -32,6 +32,7 @@ import {roam} from './services';
 import { RadioGroup } from 'react-native-radio-buttons-group';
 import CheckBox from '@react-native-community/checkbox';
 import RNFetchBlob from 'react-native-blob-util';
+import MapView, { Marker , Polyline} from 'react-native-maps';
 
 
 const App = () => {
@@ -61,7 +62,10 @@ const App = () => {
   const [tripResponse, setTripResponse] = useState('');
   const [tripSummaryResponse, setTripSummaryResponse] = useState('')
   const [getActiveTripsIsLocal, setGetActiveTripsIsLocal] = useState(false)
+  const [mapReady, setMapReady] = useState(false); 
 
+  const [lastLocation, setLastLocation] = useState(null);
+  const [Locations, setLocations] = useState([]);
   const [listenEvent, setListenEvent] = useState('')
 
   //temp solution for updateTrip is_local
@@ -114,17 +118,34 @@ const App = () => {
   const [batchCount, setBatchCount] = useState('')
   const [batchWindow, setBatchWindow] = useState('')
   const [networkState, setNetworkState] = useState(Roam.NetworkState.BOTH)
+//   const [state, setState] = useState({
+
+//     pickupcords:{
+//       latitude:  30.7046,
+//       longitude:  76.7179,
+//       latitudeDelta: 0.0922,
+//       longitudeDelta: 0.0421,
+//     },
+//     droplocationcords:{
+//       latitude:  30.7333,
+//       longitude:  76.7794,
+//       latitudeDelta: 0.0922,
+//       longitudeDelta: 0.0421,
+//     }
+//   })
+
+// const {pickupcords,droplocationcords} = state
 
   //Initial configuration
   useEffect(() => {
     if (!initialized) {
       //Get stored userId
-      AsyncStorage.getItem('userId').then(savedId => {
+      AsyncStorage.getItem('userId')?.then(savedId => {
         setUserId(savedId);
         setInitialized(true);
       });
       //Get stored userId
-      AsyncStorage.getItem('tripId').then(savedId => {
+      AsyncStorage.getItem('tripId')?.then(savedId => {
         setTripId(savedId);
         setInitialized(true);
       });
@@ -140,22 +161,21 @@ const App = () => {
   }, [initialized, onCheckPermissions, setUserId, setTripId]);
 
   // Refresh permissions on app state change
-  useEffect(() => {
-    const handleAppStateChange = nextAppState => {
-      if (
-        appStateRef.current.match(/inactive|background/) &&
-        nextAppState === 'active'
-      ) {
-        onCheckPermissions();
-      }
-      appStateRef.current = nextAppState;
-    };
-    AppState.addEventListener('change', handleAppStateChange);
-    return () => {
-      AppState.removeEventListener('change', handleAppStateChange);
-    };
-  }, [onCheckPermissions]);
-
+  // useEffect(() => {
+  //   const handleAppStateChange = nextAppState => {
+  //     if (
+  //       appStateRef.current?.match(/inactive|background/) &&
+  //       nextAppState === 'active'
+  //     ) {
+  //       onCheckPermissions();
+  //     }
+  //     appStateRef?.current = nextAppState;
+  //   };
+  //   AppState.addEventListener('change', handleAppStateChange);
+  //   return () => {
+  //     AppState.removeEventListener('change', handleAppStateChange);
+  //   };
+  // }, [onCheckPermissions]);
 
   //Check Permission
   const onCheckPermissions = useCallback(async () => {
@@ -709,7 +729,9 @@ const App = () => {
       },
     );
   };
-
+  const handleMapLayout = () => {
+    setMapReady(true); 
+  };
   const onSubscribeLocation = () => {
     if (typeof loadedUserId === 'undefined') {
       Alert.alert('Invalid user id', 'Please load a test user before');
@@ -736,8 +758,30 @@ const App = () => {
       Alert.alert('Error', 'Please, subscribe location before');
       return;
     }
-    Roam.startListener('location', locations => {
-      console.log("React Native...7",locations);
+    Roam.startListener("location", (locations) => {
+      if (locations.error) {
+        console.error("Error in location listener:", locations.error);
+        setTrackingStatus('Error');
+      } else {
+        console.log("Location update received:", JSON.stringify(locations));
+        const parsedLocation = locations[0];
+
+        setLocations(prevLocations => {
+          const newLocations = [
+            ...prevLocations,
+            {
+              latitude: parsedLocation.location.latitude,
+              longitude: parsedLocation.location.longitude,
+              timestamp: parsedLocation.recordedAt,
+            },
+          ];
+
+          console.log("Updated locations:", newLocations);
+          return newLocations;
+        });
+
+        setLastLocation(parsedLocation);
+      }
       // locations.map((location) => {
       //   console.log(JSON.stringify(location))
       // })
@@ -846,6 +890,7 @@ const App = () => {
   if (!initialized) {
     return <Loader />;
   }
+console.log('jiya.., Locations', Locations);
 
   return (
     <>
@@ -1187,6 +1232,37 @@ const App = () => {
               {'\n'}{'\n'}JSON Response: {tripSummaryResponse}
             </Text>
           </View>
+          <View   style={styles.mapView}
+          >
+          <MapView
+  style={styles.map}
+  onLayout={handleMapLayout} 
+  initialRegion={{
+    latitude: 30.7046,
+    longitude: 76.7179,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  }}
+  zoomEnabled={true}
+  zoomControlEnabled={true}
+  showsUserLocation={true}
+>
+{Locations.map((loc, index) => (
+  
+            <Marker
+              key={index}
+              coordinate={loc}
+              title={`Location ${index + 1}`}
+            />
+          ))}
+            {Locations && 
+            <Polyline
+          coordinates={Locations}  
+          strokeColor="#FF0000"     
+          strokeWidth={5}             
+        />} 
+        </MapView>
+        </View>
         </ScrollView>
       </SafeAreaView>
     </>
@@ -1248,6 +1324,12 @@ const styles = StyleSheet.create({
     flex: 1,
     fontWeight: 'bold',
     borderRadius: 5
+  },
+  mapView:{
+    alignSelf: 'center'  },
+  map: {
+    width: 300,
+    height: 300, 
   },
 });
 
